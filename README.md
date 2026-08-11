@@ -977,30 +977,8 @@ docker compose up -d --build api
 
 ## 🔑 Akun Development (Seed Data)
 
-> Semua akun menggunakan password yang sama: **`Password123`**
-> Login melalui: `http://localhost:3003/login`
-
-### Admin
-
-| Email | Username | Password | Role |
-|---|---|---|---|
-| `admin@booksteam.com` | `admin` | `Password123` | admin |
-
-### Publisher
-
-| Email | Username | Password | Publisher |
-|---|---|---|---|
-| `gramedia@publisher.com` | `gramedia_official` | `Password123` | Gramedia Pustaka |
-| `mizan@publisher.com` | `mizan_books` | `Password123` | Mizan Publishing |
-| `indie@publisher.com` | `indie_author` | `Password123` | Indie Author Press |
-
-### User
-
-| Email | Username | Password | Level | EXP |
-|---|---|---|---|---|
-| `budi@mail.com` | `budi_reader` | `Password123` | 6 | 750 |
-| `sari@mail.com` | `sari_bookworm` | `Password123` | 8 | 1200 |
-| `andi@mail.com` | `andi_reader` | `Password123` | 3 | 200 |
+> Credential akun development tersedia di file `README.dev.md` (tidak di-push ke GitHub).
+> Jalankan seed migration terlebih dahulu, lalu buka file tersebut secara lokal.
 
 > Untuk membuat akun baru, daftar lewat `http://localhost:3003/register`
 

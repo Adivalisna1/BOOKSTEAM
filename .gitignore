@@ -2,6 +2,10 @@
 # ROOT .gitignore — BookSteam Project
 # ============================================================
 
+# ─── Private / Local-only files (JANGAN DI-PUSH!) ────────
+README.dev.md
+task.md
+
 # ─── Environment Variables (JANGAN DI-PUSH KE GITHUB!) ───
 .env
 .env.local
