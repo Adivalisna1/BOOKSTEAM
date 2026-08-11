@@ -1,0 +1,125 @@
+version: "3.9"
+
+services:
+  # =============================================
+  # MySQL Database
+  # =============================================
+  db:
+    image: mysql:8.4
+    container_name: booksteam_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: booksteam
+      MYSQL_USER: booksteam
+      MYSQL_PASSWORD: booksteam
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - booksteam_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "booksteam", "-pbooksteam"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # =============================================
+  # Redis Cache & Session Store
+  # =============================================
+  redis:
+    image: redis:7.4-alpine
+    container_name: booksteam_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - booksteam_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # =============================================
+  # Backend API
+  # =============================================
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: booksteam_api
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      PORT: 3002
+      # Database
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: booksteam
+      DB_PASSWORD: booksteam
+      DB_NAME: booksteam
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      # CORS
+      CORS_ORIGIN: http://localhost:3003
+      # JWT
+      JWT_SECRET: booksteam_access_secret_change_in_production
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_SECRET: booksteam_refresh_secret_change_in_production
+      JWT_REFRESH_EXPIRES_IN: 7d
+      # Midtrans
+      MIDTRANS_SERVER_KEY: your_midtrans_server_key_here
+      MIDTRANS_CLIENT_KEY: your_midtrans_client_key_here
+      MIDTRANS_IS_PRODUCTION: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - booksteam_net
+
+  # =============================================
+  # Database Migration (run-once job)
+  # =============================================
+  migrate:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: booksteam_migrate
+    command: ["node", "src/config/runMigrations.js"]
+    environment:
+      NODE_ENV: development
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: booksteam
+      DB_PASSWORD: booksteam
+      DB_NAME: booksteam
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - booksteam_net
+    # Exit after migration is done — don't restart
+    restart: "no"
+
+# =============================================
+# Volumes & Networks
+# =============================================
+volumes:
+  db_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  booksteam_net:
+    driver: bridge

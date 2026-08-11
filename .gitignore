@@ -1,0 +1,60 @@
+# ============================================================
+# ROOT .gitignore — BookSteam Project
+# ============================================================
+
+# ─── Environment Variables (JANGAN DI-PUSH KE GITHUB!) ───
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+*.env
+
+# ─── Dependencies ────────────────────────────────────────
+node_modules/
+**/node_modules/
+
+# ─── Build Output ────────────────────────────────────────
+/build
+/dist
+/out
+.next/
+**/.next/
+
+# ─── Database / Data Files ───────────────────────────────
+*.sqlite
+*.sqlite3
+*.db
+
+# ─── Logs ────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── OS Files ────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Editor / IDE ────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Docker ──────────────────────────────────────────────
+# (docker-compose.yml tetap di-push, tapi override file tidak)
+docker-compose.override.yml
+
+# ─── TypeScript ──────────────────────────────────────────
+*.tsbuildinfo
+
+# ─── Vercel / Deployment ─────────────────────────────────
+.vercel
+
+# ─── Misc ────────────────────────────────────────────────
+*.pem
+/coverage

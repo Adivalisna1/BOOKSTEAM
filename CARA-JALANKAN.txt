@@ -1,0 +1,136 @@
+================================================================
+  BOOKSTEAM — CARA MENJALANKAN & MEMATIKAN WEB
+================================================================
+
+PRASYARAT
+---------
+- Docker Desktop sudah terinstall dan SEDANG BERJALAN (cek di taskbar)
+- Node.js sudah terinstall (cek: node -v di terminal)
+
+
+================================================================
+  CARA MENJALANKAN (PERTAMA KALI)
+================================================================
+
+LANGKAH 1 — Buka Terminal, masuk ke folder project
+----------------------------------------------------
+  cd "C:\Users\adiva\OneDrive\Dokumen\test project"
+
+
+LANGKAH 2 — Jalankan Backend + Database + Redis
+------------------------------------------------
+  docker compose up -d --build
+
+  Tunggu sampai semua container statusnya "Started" atau "Healthy".
+  Cek status:
+  docker compose ps
+
+
+LANGKAH 3 — Jalankan Migrations (SEKALI SAJA, tidak perlu diulang)
+-------------------------------------------------------------------
+  docker compose run --rm migrate
+
+
+LANGKAH 4 — Buka Terminal BARU, jalankan Frontend
+--------------------------------------------------
+  cd "C:\Users\adiva\OneDrive\Dokumen\test project\frontend"
+  npm run dev -- -p 3003
+
+
+LANGKAH 5 — Buka Browser
+-------------------------
+  Frontend  : http://localhost:3003
+  API       : http://localhost:3002
+  Health    : http://localhost:3002/health
+
+
+================================================================
+  CARA MENJALANKAN (SELANJUTNYA — tidak perlu build ulang)
+================================================================
+
+Terminal 1 (Backend):
+  cd "C:\Users\adiva\OneDrive\Dokumen\test project"
+  docker compose up -d
+
+Terminal 2 (Frontend):
+  cd "C:\Users\adiva\OneDrive\Dokumen\test project\frontend"
+  npm run dev -- -p 3003
+
+
+================================================================
+  CARA MEMATIKAN
+================================================================
+
+Stop Frontend:
+  Tekan Ctrl+C di terminal yang menjalankan npm run dev
+
+Stop Backend + Database + Redis:
+  cd "C:\Users\adiva\OneDrive\Dokumen\test project"
+  docker compose down
+
+  CATATAN: Data di database TIDAK terhapus.
+           docker compose down hanya menghentikan container.
+
+
+================================================================
+  RESET TOTAL (hapus semua data, mulai dari awal)
+================================================================
+
+  docker compose down -v
+
+  PERINGATAN: Perintah ini menghapus database beserta semua data!
+              Setelah ini kamu perlu jalankan migrate lagi.
+
+
+================================================================
+  AKUN LOGIN (password semua: Password123)
+================================================================
+
+  Role      Email                      Username
+  --------  -------------------------  -----------------
+  admin     admin@booksteam.com        admin
+  publisher gramedia@publisher.com     gramedia_official
+  publisher mizan@publisher.com        mizan_books
+  publisher indie@publisher.com        indie_author
+  user      budi@mail.com              budi_reader
+  user      sari@mail.com              sari_bookworm
+  user      andi@mail.com              andi_reader
+
+  Daftar akun baru: http://localhost:3003/register
+
+
+================================================================
+  PORT YANG DIGUNAKAN
+================================================================
+
+  Service       Port
+  ----------    -----
+  Frontend      3003
+  Backend API   3002
+  MySQL         3306
+  Redis         6379
+
+
+================================================================
+  TROUBLESHOOTING
+================================================================
+
+Error: port already in use
+  -> Cek port yang dipakai: netstat -ano | findstr :3002
+  -> Ganti port di docker-compose.yml dan backend/.env
+
+Error: Cannot connect to Docker
+  -> Pastikan Docker Desktop sudah dibuka dan running
+
+Error: Module not found (frontend)
+  -> cd "C:\Users\adiva\OneDrive\Dokumen\test project\frontend"
+  -> npm install
+  -> npm run dev -- -p 3003
+
+Lihat log backend:
+  docker logs booksteam_api --tail 50
+
+Lihat log database:
+  docker logs booksteam_db --tail 50
+
+================================================================
