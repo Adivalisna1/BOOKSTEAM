@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Star, Users, Zap, BookOpen, ShieldCheck, Repeat2 } from "lucide-react";
 import { BookCard, type Book } from "@/components/BookCard";
 import api from "@/lib/api";
@@ -8,6 +9,14 @@ export const metadata: Metadata = {
   title: "BookSteam — Platform Buku Digital Indonesia",
   description: "Beli, baca, dan bagikan buku digital favoritmu. EXP system, Family Sharing, ribuan judul.",
 };
+
+interface HomeEvent {
+  id: string;
+  title: string;
+  link_url?: string | null;
+  description?: string | null;
+  banner_url?: string | null;
+}
 
 async function getFeaturedBooks(): Promise<Book[]> {
   try {
@@ -27,7 +36,7 @@ async function getNewReleases(): Promise<Book[]> {
   }
 }
 
-async function getActiveEvents() {
+async function getActiveEvents(): Promise<HomeEvent[]> {
   try {
     const { data } = await api.get("/events");
     return data.data ?? [];
@@ -122,19 +131,36 @@ export default async function HomePage() {
       {events.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-            {events.map((event: any) => (
+            {events.map((event) => (
               <Link
                 key={event.id}
                 href={event.link_url ?? "/store"}
                 className="flex-none w-72 sm:w-96 card overflow-hidden group"
               >
-                <div className="h-32 bg-gradient-to-r from-primary-500 to-primary-700
-                                flex items-end p-4">
-                  <div>
-                    <p className="text-xs text-white/70 font-medium uppercase tracking-wide">Event</p>
-                    <p className="text-white font-bold text-lg leading-tight">{event.title}</p>
+                {event.banner_url ? (
+                  <div className="relative h-32 w-full">
+                    <Image
+                      src={event.banner_url}
+                      alt={event.title}
+                      fill
+                      sizes="384px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                      <div>
+                        <p className="text-xs text-white/70 font-medium uppercase tracking-wide">Event</p>
+                        <p className="text-white font-bold text-lg leading-tight">{event.title}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="h-32 bg-gradient-to-r from-primary-500 to-primary-700 flex items-end p-4">
+                    <div>
+                      <p className="text-xs text-white/70 font-medium uppercase tracking-wide">Event</p>
+                      <p className="text-white font-bold text-lg leading-tight">{event.title}</p>
+                    </div>
+                  </div>
+                )}
                 {event.description && (
                   <p className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
                     {event.description}
