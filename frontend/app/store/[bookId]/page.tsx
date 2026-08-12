@@ -38,6 +38,14 @@ const BOOK_TYPE_LABELS: Record<string, string> = {
   novel: "Novel", comic: "Komik", textbook: "Buku Teks", journal: "Jurnal",
 };
 
+interface BookReview {
+  id: string;
+  username?: string;
+  rating: number;
+  content?: string;
+  created_at?: string;
+}
+
 function StarRating({ rating, size = 16 }: { rating: number; size?: number }) {
   return (
     <div className="flex gap-0.5">
@@ -202,7 +210,7 @@ export default async function BookDetailPage({ params }: { params: { bookId: str
                 Ulasan ({book.review_count})
               </h2>
               <div className="space-y-4">
-                {reviews.map((r: any) => (
+                {reviews.map((r: BookReview) => (
                   <div key={r.id} className="card p-4">
                     <div className="flex items-start gap-3">
                       <div className="w-9 h-9 rounded-full bg-primary-100 dark:bg-primary-900/30
@@ -217,7 +225,7 @@ export default async function BookDetailPage({ params }: { params: { bookId: str
                           </span>
                           <div className="flex items-center gap-2">
                             <StarRating rating={r.rating} size={12} />
-                            <span className="text-xs text-slate-400">{formatDate(r.created_at)}</span>
+                            <span className="text-xs text-slate-400">{r.created_at ? formatDate(r.created_at) : ""}</span>
                           </div>
                         </div>
                         {r.content && (

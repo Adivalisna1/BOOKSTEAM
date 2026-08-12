@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { BookCard, type Book } from "@/components/BookCard";
 import { StoreSidebar } from "@/components/StoreSidebar";
@@ -17,6 +16,7 @@ interface StoreSearchParams {
   max_price?: string;
   sort_by?:   string;
   order?:     string;
+  [key: string]: string | undefined;
 }
 
 async function getBooks(params: StoreSearchParams) {
@@ -79,8 +79,6 @@ export default async function StorePage({
             currentSort={searchParams.sort_by}
             currentOrder={searchParams.order}
             currentType={searchParams.book_type}
-            genres={genres}
-            currentGenre={searchParams.genre}
           />
 
           {books.length === 0 ? (

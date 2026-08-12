@@ -71,8 +71,12 @@ export default function ProfilePage() {
       setUser(data.data);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
-    } catch (err: any) {
-      setError(err?.response?.data?.message ?? "Gagal menyimpan perubahan.");
+    } catch (err: unknown) {
+      const message =
+        err && typeof err === "object" && "response" in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : undefined;
+      setError(message ?? "Gagal menyimpan perubahan.");
     } finally {
       setSaving(false);
     }

@@ -1,8 +1,6 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const SORT_OPTIONS = [
@@ -25,14 +23,11 @@ interface Props {
   currentSort?:  string;
   currentOrder?: string;
   currentType?:  string;
-  currentGenre?: string;
-  genres: { genre: string }[];
 }
 
-export function StoreSortBar({ currentSort, currentOrder, currentType, currentGenre, genres }: Props) {
+export function StoreSortBar({ currentSort, currentOrder, currentType }: Props) {
   const router = useRouter();
   const sp     = useSearchParams();
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   function updateParams(updates: Record<string, string>) {
     const params = new URLSearchParams(sp.toString());

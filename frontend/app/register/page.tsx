@@ -36,8 +36,12 @@ export default function RegisterPage() {
       useAuthStore.getState().setAuth(data.user, data.access_token, data.refresh_token);
       setSuccess(true);
       setTimeout(() => router.push("/"), 1500);
-    } catch (err: any) {
-      setError(err?.response?.data?.message ?? "Pendaftaran gagal. Coba lagi.");
+    } catch (err: unknown) {
+      const message =
+        err && typeof err === "object" && "response" in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : undefined;
+      setError(message ?? "Pendaftaran gagal. Coba lagi.");
     } finally {
       setLoading(false);
     }

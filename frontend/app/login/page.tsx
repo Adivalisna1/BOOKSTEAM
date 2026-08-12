@@ -29,8 +29,12 @@ export default function LoginPage() {
       const { data } = await api.post("/auth/login", form);
       setAuth(data.user, data.access_token, data.refresh_token);
       router.push("/");
-    } catch (err: any) {
-      setError(err?.response?.data?.message ?? "Login gagal. Coba lagi.");
+    } catch (err: unknown) {
+      const message =
+        err && typeof err === "object" && "response" in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : undefined;
+      setError(message ?? "Login gagal. Coba lagi.");
     } finally {
       setLoading(false);
     }
