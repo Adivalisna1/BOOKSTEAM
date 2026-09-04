@@ -843,144 +843,26 @@ erDiagram
     TOP_UP_HISTORY }o--|| USERS : "milik"
 ```
 
----
 
-## 🗂️ Halaman & Routing
-
-```
-/                           → Landing Page (Public)
-/store                      → Browse Katalog Buku (Public)
-/store/:bookId              → Halaman Detail Buku (Public)
-/search                     → Hasil Pencarian (Public)
-/login                      → Halaman Login
-/register                   → Halaman Register
-
-/user/library               → Library Buku yang Dimiliki
-/user/read/:bookId          → In-App Reader
-/user/profile               → Profil User (EXP, Level, Achievement)
-/user/wishlist              → Wishlist
-/user/transactions          → Riwayat Transaksi
-/user/wallet                → Saldo & Riwayat Top-up
-/user/family                → Manajemen Family Group
-/user/friends               → Friendlist
-
-/publisher/dashboard        → Dashboard Publisher
-/publisher/upload           → Upload Buku Baru
-/publisher/books            → Manajemen Buku Publisher
-/publisher/analytics        → Histori Penjualan & Analytics
-/publisher/balance          → Saldo & Withdrawal
-
-/admin/dashboard            → Dashboard Admin
-/admin/publishers           → Antrian Verifikasi Publisher
-/admin/books                → Antrian Review & Moderasi Buku
-/admin/users                → Manajemen User
-/admin/events               → Kelola Event & Banner Beranda
-```
 
 ---
 
-## 🚀 Roadmap Pengembangan
+## 🚀 Roadmap & Updates
 
-### Phase 1 — MVP Core
-- [x] Desain & Dokumentasi Sistem
-- [x] Setup project Backend (Node.js + Express + MySQL + Docker)
-- [x] Public API — Browse, Search, Genre, Event
-- [ ] Auth system (register, login, role-based)
-- [ ] Browse & halaman detail buku
-- [ ] Sistem pembayaran & top-up wallet (Midtrans)
-- [ ] Library & in-app reader dasar
-- [ ] Dashboard publisher (upload + lihat penjualan)
-- [ ] Admin panel (moderasi buku & publisher)
+Berikut adalah target rilis dan pengembangan BookSteam. Untuk melihat detail *task* dan *checklist* dari masing-masing versi, silakan klik link di bawah:
 
-### Phase 2 — Gamifikasi
-- [ ] EXP system & leveling
-- [ ] Achievement & badge
-- [ ] Wishlist
-- [ ] Review & rating
-- [ ] Notifikasi
-
-### Phase 3 — Social & Sharing
-- [ ] Friendlist
-- [ ] Family Sharing & Group
-- [ ] Activity feed
-
-### Phase 4 — Polish & Scale
-- [ ] Advanced search & filter
-- [ ] Analitik publisher lebih detail
-- [ ] Anti-screenshot & watermark (DRM)
-- [ ] Moderasi konten 18+ / age gate
-- [ ] Dark mode
-- [ ] Mobile optimization
+- 🚧 [**v0.1.0 Beta (Core Foundation)**](./roadmap/v0.1.0-beta.md) — Fokus: Auth, Upload Buku, & Web Reader *(Current Progress)*
+- ⏳ [**v1.0.0 Beta (Economy)**](./roadmap/v1.0.0-beta.md) — Fokus: Integrasi Midtrans, Wallet, & Admin Panel
+- ⏳ [**v1.0.0 (Official MVP)**](./roadmap/v1.0.0-release.md) — Fokus: Review, Rating, Wishlist, Notifikasi
+- ⏳ [**v1.1.0 (Gamification)**](./roadmap/v1.1.0-gamification.md) — Fokus: EXP, Leveling, Family Sharing
+- ⏳ **v2.0.0 (Scale & Polish)** — Fokus: Analytics, Mobile UI, Advanced Search (Detail menyusul)
 
 ---
 
-## ⚙️ Cara Menjalankan (Development)
+## 📬 Kontak & Demo
 
-### Prasyarat
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) sudah terinstall dan berjalan
-
-### 1. Clone & Konfigurasi
-
-```bash
-# Salin environment file
-cp backend/.env.example backend/.env
-# Edit sesuai kebutuhan (opsional, default sudah siap untuk Docker)
-```
-
-### 2. Jalankan Semua Service
-
-```bash
-# Build image dan jalankan seluruh stack
-docker compose up -d --build
-
-# Lihat status container
-docker compose ps
-```
-
-### 3. Jalankan Migration & Seed Data
-
-```bash
-# Migration dijalankan otomatis oleh service 'migrate'
-# Untuk menjalankan ulang manual:
-docker compose run --rm migrate
-```
-
-### 4. Akses API
-
-| Service | URL |
-|---|---|
-| **API** | http://localhost:3000 |
-| **Health Check** | http://localhost:3000/health |
-| **MySQL** | localhost:3306 |
-| **Redis** | localhost:6379 |
-
-### 5. Perintah Berguna
-
-```bash
-# Lihat log API
-docker compose logs -f api
-
-# Lihat log database
-docker compose logs -f db
-
-# Stop semua service
-docker compose down
-
-# Stop dan hapus volume (reset database)
-docker compose down -v
-
-# Rebuild ulang image setelah perubahan kode
-docker compose up -d --build api
-```
-
----
-
-## 🔑 Akun Development (Seed Data)
-
-> Credential akun development tersedia di file `README.dev.md` (tidak di-push ke GitHub).
-> Jalankan seed migration terlebih dahulu, lalu buka file tersebut secara lokal.
-
-> Untuk membuat akun baru, daftar lewat `http://localhost:3003/register`
+*Tertarik untuk melihat demo, berkolaborasi, atau mencoba menjalankan proyek ini secara lokal?*
+Silakan hubungi saya melalui email untuk diskusi lebih lanjut!
 
 ---
 

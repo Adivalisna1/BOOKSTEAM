@@ -31,10 +31,7 @@ RUN rm -f .env
 RUN chown -R booksteam:booksteam /app
 USER booksteam
 
-EXPOSE 3000
-
-# Health check — Docker will mark container unhealthy if this fails
-HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
-    CMD wget -qO- http://localhost:3000/health || exit 1
+# Railway injects $PORT dynamically — do NOT hardcode EXPOSE or HEALTHCHECK to a static port.
+# The app reads process.env.PORT in server.js, so Railway's healthcheck will work automatically.
 
 CMD ["node", "src/server.js"]

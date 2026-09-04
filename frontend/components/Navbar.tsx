@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import {
   Search, BookOpen, Menu, X,
-  BookMarked, Heart, Wallet, Bell, User, LogOut, ChevronDown, Star,
+  BookMarked, Heart, Wallet, Bell, User, LogOut, ChevronDown, Star, LayoutDashboard, Upload
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,12 @@ const USER_MENU = [
   { href: "/dashboard/wallet",        icon: <Wallet size={15} />,     label: "Wallet"     },
   { href: "/dashboard/notifications", icon: <Bell size={15} />,       label: "Notifikasi" },
   { href: "/dashboard/profile",       icon: <User size={15} />,       label: "Profil"     },
+];
+
+const PUBLISHER_MENU = [
+  { href: "/publisher/dashboard",     icon: <LayoutDashboard size={15} />, label: "Dashboard Publisher" },
+  { href: "/publisher/upload",        icon: <Upload size={15} />,          label: "Upload Buku" },
+  { href: "/publisher/balance",       icon: <Wallet size={15} />,          label: "Saldo Publisher" },
 ];
 
 export function Navbar() {
@@ -152,7 +158,7 @@ export function Navbar() {
                     <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{user.email}</p>
                   </div>
 
-                  {USER_MENU.map((item) => (
+                  {(user.role === 'publisher' ? PUBLISHER_MENU : USER_MENU).map((item) => (
                     <Link key={item.href} href={item.href}
                       onClick={() => setDropOpen(false)}
                       className={cn(
@@ -249,7 +255,7 @@ export function Navbar() {
                 </div>
               </div>
 
-              {USER_MENU.map((item) => (
+              {(user.role === 'publisher' ? PUBLISHER_MENU : USER_MENU).map((item) => (
                 <Link key={item.href} href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm

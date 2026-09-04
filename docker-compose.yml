@@ -110,8 +110,31 @@ services:
       - booksteam_net
     # Exit after migration is done — don't restart
     restart: "no"
+  # =============================================
+  # Frontend Web
+  # =============================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: booksteam_frontend
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3002/api/v1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - api
+    networks:
+      - booksteam_net
 
 # =============================================
+
 # Volumes & Networks
 # =============================================
 volumes:

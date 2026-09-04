@@ -17,8 +17,8 @@ LANGKAH 1 — Buka Terminal, masuk ke folder project
   cd "C:\Users\adiva\OneDrive\Dokumen\test project"
 
 
-LANGKAH 2 — Jalankan Backend + Database + Redis
-------------------------------------------------
+LANGKAH 2 — Jalankan SEMUA (Frontend, Backend, Database, Redis)
+---------------------------------------------------------------
   docker compose up -d --build
 
   Tunggu sampai semua container statusnya "Started" atau "Healthy".
@@ -31,13 +31,7 @@ LANGKAH 3 — Jalankan Migrations (SEKALI SAJA, tidak perlu diulang)
   docker compose run --rm migrate
 
 
-LANGKAH 4 — Buka Terminal BARU, jalankan Frontend
---------------------------------------------------
-  cd "C:\Users\adiva\OneDrive\Dokumen\test project\frontend"
-  npm run dev -- -p 3003
-
-
-LANGKAH 5 — Buka Browser
+LANGKAH 4 — Buka Browser
 -------------------------
   Frontend  : http://localhost:3003
   API       : http://localhost:3002
@@ -48,23 +42,16 @@ LANGKAH 5 — Buka Browser
   CARA MENJALANKAN (SELANJUTNYA — tidak perlu build ulang)
 ================================================================
 
-Terminal 1 (Backend):
+Buka Terminal:
   cd "C:\Users\adiva\OneDrive\Dokumen\test project"
   docker compose up -d
-
-Terminal 2 (Frontend):
-  cd "C:\Users\adiva\OneDrive\Dokumen\test project\frontend"
-  npm run dev -- -p 3003
 
 
 ================================================================
   CARA MEMATIKAN
 ================================================================
 
-Stop Frontend:
-  Tekan Ctrl+C di terminal yang menjalankan npm run dev
-
-Stop Backend + Database + Redis:
+Stop Semua (Frontend, Backend, Database, Redis):
   cd "C:\Users\adiva\OneDrive\Dokumen\test project"
   docker compose down
 
