@@ -30,6 +30,12 @@ const PUBLISHER_MENU = [
   { href: "/publisher/balance",       icon: <Wallet size={15} />,          label: "Saldo Publisher" },
 ];
 
+const ADMIN_MENU = [
+  { href: "/admin",                   icon: <LayoutDashboard size={15} />, label: "Admin Panel" },
+  { href: "/admin/publishers",        icon: <User size={15} />,            label: "Moderasi Publisher" },
+  { href: "/admin/books",             icon: <BookOpen size={15} />,        label: "Moderasi Buku" },
+];
+
 export function Navbar() {
   const pathname = usePathname();
   const router   = useRouter();
@@ -158,7 +164,7 @@ export function Navbar() {
                     <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{user.email}</p>
                   </div>
 
-                  {(user.role === 'publisher' ? PUBLISHER_MENU : USER_MENU).map((item) => (
+                  {(user.role === 'admin' ? ADMIN_MENU : user.role === 'publisher' ? PUBLISHER_MENU : USER_MENU).map((item) => (
                     <Link key={item.href} href={item.href}
                       onClick={() => setDropOpen(false)}
                       className={cn(
@@ -255,7 +261,7 @@ export function Navbar() {
                 </div>
               </div>
 
-              {(user.role === 'publisher' ? PUBLISHER_MENU : USER_MENU).map((item) => (
+              {(user.role === 'admin' ? ADMIN_MENU : user.role === 'publisher' ? PUBLISHER_MENU : USER_MENU).map((item) => (
                 <Link key={item.href} href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm

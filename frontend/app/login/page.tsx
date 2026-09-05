@@ -28,7 +28,12 @@ export default function LoginPage() {
     try {
       const { data } = await api.post("/auth/login", form);
       setAuth(data.user, data.access_token, data.refresh_token);
-      router.push("/");
+      
+      if (data.user.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (err: unknown) {
       const message =
         err && typeof err === "object" && "response" in err
