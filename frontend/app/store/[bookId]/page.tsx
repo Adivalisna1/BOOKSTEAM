@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Users, BookOpen, Calendar, Globe, ChevronRight, Tag, ShoppingCart } from "lucide-react";
+import { Star, Users, BookOpen, Calendar, Globe, ChevronRight, Tag } from "lucide-react";
 import { BookCard, type Book } from "@/components/BookCard";
 import { formatPrice, formatDate, truncate } from "@/lib/utils";
 import api from "@/lib/api";
+import { ClientActions } from "./ClientActions";
 
 async function getBook(bookId: string) {
   try {
@@ -98,15 +99,7 @@ export default async function BookDetailPage({ params }: { params: { bookId: str
               {formatPrice(book.price)}
             </p>
 
-            <Link href="/login"
-              className="btn-primary w-full flex items-center justify-center gap-2 text-base py-3">
-              <ShoppingCart size={18} />
-              Beli Sekarang
-            </Link>
-            <Link href="/login"
-              className="btn-secondary w-full flex items-center justify-center gap-2 text-sm">
-              + Tambah ke Wishlist
-            </Link>
+            <ClientActions bookId={book.id} />
 
             {Boolean(book.is_family_shareable) && (
               <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400

@@ -160,12 +160,20 @@ export default function LibraryPage() {
                     </p>
                   )}
 
-                  <Link
-                    href={`/store/${book.book_id}`}
-                    className="mt-2 text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline"
-                  >
-                    Lihat Detail →
-                  </Link>
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <Link
+                      href={`/store/book/${book.book_id}`}
+                      className="text-xs font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                    >
+                      Detail
+                    </Link>
+                    <Link
+                      href={`/dashboard/library/read/${book.book_id}`}
+                      className="bg-primary-600 hover:bg-primary-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+                    >
+                      Baca
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

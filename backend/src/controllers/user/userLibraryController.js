@@ -33,4 +33,12 @@ async function updateProgress(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { getLibrary, getLibraryBook, updateProgress };
+/** POST /api/v1/user/library/:bookId/add */
+async function addToLibrary(req, res, next) {
+  try {
+    const result = await userLibraryService.addToLibrary(req.user.id, req.params.bookId);
+    res.json(result);
+  } catch (err) { next(err); }
+}
+
+module.exports = { getLibrary, getLibraryBook, updateProgress, addToLibrary };

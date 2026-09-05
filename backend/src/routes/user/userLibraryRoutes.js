@@ -40,4 +40,7 @@ router.patch(
   userLibraryController.updateProgress
 );
 
+// POST /api/v1/user/library/:bookId/add
+router.post('/:bookId/add', bookIdParam, validateRequest, userLibraryController.addToLibrary);
+
 module.exports = router;

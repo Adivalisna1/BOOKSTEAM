@@ -105,4 +105,41 @@ async function updateProgress(userId, bookId, progressPages) {
   return { book_id: bookId, progress_pages: progressPages, progress_percent: progressPercent };
 }
 
-module.exports = { getLibrary, getLibraryBook, updateProgress };
+/**
+ * Add a book to user's library (Dummy Checkout for v0.1.0 Beta)
+ */
+async function addToLibrary(userId, bookId) {
+  // Check if book exists
+  const { rows: bookRows } = await db.query(
+    'SELECT id, status FROM books WHERE id = ?',
+    [bookId]
+  );
+  
+  if (bookRows.length === 0) {
+    throw new AppError('Book not found', 404);
+  }
+  
+  if (bookRows[0].status !== 'approved' && bookRows[0].status !== 'pending') {
+    throw new AppError('Book is not available for reading', 400);
+  }
+
+  // Check if already in library
+  const { rows: libRows } = await db.query(
+    'SELECT id FROM libraries WHERE user_id = ? AND book_id = ?',
+    [userId, bookId]
+  );
+
+  if (libRows.length > 0) {
+    throw new AppError('Book is already in your library', 400);
+  }
+
+  // Add to library
+  await db.query(
+    `INSERT INTO libraries (user_id, book_id) VALUES (?, ?)`,
+    [userId, bookId]
+  );
+
+  return { success: true, message: 'Book added to library successfully' };
+}
+
+module.exports = { getLibrary, getLibraryBook, updateProgress, addToLibrary };
